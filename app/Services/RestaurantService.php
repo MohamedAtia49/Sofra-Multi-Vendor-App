@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\Restaurant\RestaurantAllReviewsRequest;
 use App\Http\Requests\Restaurant\RestaurantLoginRequest;
 use App\Http\Requests\Restaurant\RestaurantRegisterRequest;
 use App\Http\Requests\Restaurant\RestaurantResetPasswordRequest;
@@ -61,5 +62,11 @@ class RestaurantService{
         }else{
             return responseJson(400 , 'code is expired');
         }
+    }
+
+    public function allReviews(RestaurantAllReviewsRequest $request){
+        $restaurant = Restaurant::find($request->restaurant_id);
+        $reviews = $restaurant->reviews;
+        return responseJson(200 , 'All Reviews!', $reviews);
     }
 }

@@ -2,12 +2,14 @@
 
 namespace App\Services;
 
+use App\Http\Requests\Client\ClientAddReviewRequest;
 use App\Http\Requests\Client\ClientLoginRequest;
 use App\Http\Requests\Client\ClientRegisterRequest;
 use App\Http\Requests\Client\ClientResetPasswordRequest;
 use App\Http\Requests\Client\ClientSendPinCodeRequest;
 use App\Mail\ClientResetPassword;
 use App\Models\Client;
+use App\Models\Review;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,6 +65,16 @@ class ClientService{
         }else{
             return responseJson(400 , 'code is expired');
         }
+    }
+
+    public function addReview(ClientAddReviewRequest $request){
+        $client = $request->user();
+        $review = $client->reviews()->create([
+                    'star_rating' => $request->star_rating,
+                    'comments' => $request->comments,
+                    'restaurant_id' => $request->restaurant_id,
+                ]);
+        return responseJson(200,'Review Added Successfully !!',$review);
     }
 }
 

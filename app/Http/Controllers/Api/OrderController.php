@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Meal;
+use App\Models\Order;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 
@@ -79,6 +80,57 @@ class OrderController extends Controller
             $order->delete();
             return responseJson(0,'الطلب لابد ان لا يكون اقل من'.' '. $restaurant->minimum_charge .' '.'ريال');
         }
+    }
+
+    public function clientCurrentOrders(Request $request){
+        $client_id = $request->user()->id;
+        $orders = Order::where('client_id',$client_id)->where('state','accepted')->get();
+        return responseJson(200,'Current orders',$orders);
+    }
+    public function clientPreviousOrders(Request $request){
+        $client_id = $request->user()->id;
+        $orders = Order::where('client_id',$client_id)->where('state','delivered')->orWhere('state','declined')->get();
+        return responseJson(200,'Current orders',$orders);
+    }
+
+    public function clientAcceptOrder(Request $request){
+        $validation = validator()->make($request->all(),[
+            'order_id' => 'required|exists:orders,id',
+        ]);
+
+        if ($validation->fails()){
+            return responseJson(0,$validation->errors()->first(),$validation->errors());
+        }
+
+        $order = Order::where('id',$request->order_id)->first();
+        if($order->state == 'accepted'){
+            $order->update([
+                'state' => 'delivered'
+            ]);
+            return responseJson(200,'Order Delivered Successfully',$order);
+        }else{
+            return responseJson(400,'Sorry you cant accept this order');
+        }
+    }
+    public function clientRejectOrder(Request $request){
+        $validation = validator()->make($request->all(),[
+            'order_id' => 'required|exists:orders,id',
+        ]);
+
+        if ($validation->fails()){
+            return responseJson(0,$validation->errors()->first(),$validation->errors());
+        }
+
+        $order = Order::where('id',$request->order_id)->first();
+        if($order->state == 'accepted'){
+            $order->update([
+                'state' => 'declined'
+            ]);
+            return responseJson(200,'Order Delivered Successfully',$order);
+        }else{
+            return responseJson(400,'Sorry you cant reject this order');
+        }
 
     }
 }
+

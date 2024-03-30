@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Restaurant\RestaurantAllReviewsRequest;
 use App\Http\Requests\Restaurant\RestaurantLoginRequest;
 use App\Http\Requests\Restaurant\RestaurantRegisterRequest;
 use App\Http\Requests\Restaurant\RestaurantResetPasswordRequest;
@@ -30,5 +31,9 @@ class RestaurantAuthController extends Controller
     public function restaurantResetPassword(RestaurantResetPasswordRequest $request){
 
         return $this->restaurantService->resetPassword($request);
+    }
+
+    public function allReviews(RestaurantAllReviewsRequest $request){
+        return $this->restaurantService->allReviews($request);
     }
 }

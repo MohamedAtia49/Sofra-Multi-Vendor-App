@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\ClientAddReviewRequest;
 use App\Http\Requests\Client\ClientLoginRequest;
 use App\Http\Requests\Client\ClientRegisterRequest;
 use App\Http\Requests\Client\ClientResetPasswordRequest;
@@ -36,5 +37,10 @@ class ClientAuthController extends Controller
     public function clientResetPassword(ClientResetPasswordRequest $request){
 
         return $this->clientService->resetPassword($request);
+    }
+
+    public function addReview(ClientAddReviewRequest $request){
+
+        return $this->clientService->addReview($request);
     }
 }
