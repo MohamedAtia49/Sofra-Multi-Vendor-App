@@ -130,7 +130,84 @@ class OrderController extends Controller
         }else{
             return responseJson(400,'Sorry you cant reject this order');
         }
-
     }
+
+    public function restaurantNewOrders(Request $request){
+        $restaurant_id = $request->user()->id;
+        $orders = Order::where('restaurant_id',$restaurant_id)->where('state','pending')->get();
+        return responseJson(200,'Current orders',$orders);
+    }
+    public function restaurantCurrentOrders(Request $request){
+        $restaurant_id = $request->user()->id;
+        $orders = Order::where('restaurant_id',$restaurant_id)->where('state','accepted')->get();
+        return responseJson(200,'Current orders',$orders);
+    }
+    public function restaurantPreviousOrders(Request $request){
+        $restaurant_id = $request->user()->id;
+        $orders = Order::where('restaurant_id',$restaurant_id)->where('state','delivered')->orWhere('state','rejected')->get();
+        return responseJson(200,'Current orders',$orders);
+    }
+
+    public function restaurantAcceptOrder(Request $request){
+        $validation = validator()->make($request->all(),[
+            'order_id' => 'required|exists:orders,id',
+        ]);
+
+        if ($validation->fails()){
+            return responseJson(0,$validation->errors()->first(),$validation->errors());
+        }
+
+        $order = Order::where('id',$request->order_id)->first();
+
+        if ($order->state == 'pending'){
+            $order->update([
+                'state' => 'accepted'
+            ]);
+            return responseJson(200,'Current orders',$order);
+        }else{
+            return responseJson(400,'Sorry you cant accept this order');
+        }
+    }
+    public function restaurantRejectOrder(Request $request){
+        $validation = validator()->make($request->all(),[
+            'order_id' => 'required|exists:orders,id',
+        ]);
+
+        if ($validation->fails()){
+            return responseJson(0,$validation->errors()->first(),$validation->errors());
+        }
+
+        $order = Order::where('id',$request->order_id)->first();
+
+        if ($order->state == 'pending'){
+            $order->update([
+                'state' => 'rejected'
+            ]);
+            return responseJson(200,'Current orders',$order);
+        }else{
+            return responseJson(400,'Sorry you cant reject this order');
+        }
+    }
+    public function restaurantDeliveredOrder(Request $request){
+        $validation = validator()->make($request->all(),[
+            'order_id' => 'required|exists:orders,id',
+        ]);
+
+        if ($validation->fails()){
+            return responseJson(0,$validation->errors()->first(),$validation->errors());
+        }
+
+        $order = Order::where('id',$request->order_id)->first();
+
+        if ($order->state == 'accepted'){
+            $order->update([
+                'state' => 'delivered'
+            ]);
+            return responseJson(200,'Current orders',$order);
+        }else{
+            return responseJson(400,'Sorry you cant Make this order as delivered');
+        }
+    }
+
 }
 

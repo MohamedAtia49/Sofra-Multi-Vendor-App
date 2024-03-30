@@ -25,23 +25,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
-    //Main
+    //Main Apis
     Route::get('/cities', [MainController::class, 'cities']);   //Middleware ('sanctum');
     Route::get('/regions', [MainController::class, 'regions']);
     Route::get('/categories', [MainController::class, 'categories']);
-#####################################################################
+###################################################################################################
     //Client Auth
     Route::post('/client/register', [ClientAuthController::class, 'clientRegister']);
     Route::post('/client/login', [ClientAuthController::class, 'clientLogin'])->name('client.login');
     Route::post('/client/send-pin-code', [ClientAuthController::class, 'clientSendPinCode']);
     Route::post('/client/reset-password', [ClientAuthController::class, 'clientResetPassword']);
-#####################################################################
+###################################################################################################
     //Restaurant Auth
     Route::post('/restaurant/register', [RestaurantAuthController::class, 'restaurantRegister']);
     Route::post('/restaurant/login', [RestaurantAuthController::class, 'restaurantLogin'])->name('restaurant.login');
     Route::post('/restaurant/send-pin-code', [RestaurantAuthController::class, 'restaurantSendPinCode']);
     Route::post('/restaurant/reset-password', [RestaurantAuthController::class, 'restaurantResetPassword']);
-#####################################################################
+###################################################################################################
     // Authentications Apis (Must Be logging to run)
     Route::middleware('sanctum')->group(function () {
         //Restaurant Food Items Apis
@@ -64,9 +64,19 @@ Route::prefix('v1')->group(function () {
         //(Client Reject Order)
         Route::post('/client-reject-order',[OrderController::class,'clientRejectOrder']);
         #----------------------Restaurant Order Cycle Apis----------------------#
-        Route::post('');
-
-
+        //(Restaurant New Orders)
+        Route::get('/restaurant-new-orders',[OrderController::class,'restaurantNewOrders']);
+        //(Restaurant Current Orders)
+        Route::get('/restaurant-current-orders',[OrderController::class,'restaurantCurrentOrders']);
+        //(Restaurant Previous Orders)
+        Route::get('/restaurant-previous-orders',[OrderController::class,'restaurantPreviousOrders']);
+        //(Restaurant Accept Order)
+        Route::post('/restaurant-accept-order',[OrderController::class,'restaurantAcceptOrder']);
+        //(Restaurant Reject Order)
+        Route::post('/restaurant-reject-order',[OrderController::class,'restaurantRejectOrder']);
+        //(Restaurant Make Full-Delivered Order)
+        Route::post('/restaurant-delivered-order',[OrderController::class,'restaurantDeliveredOrder']);
+#############################################
         //Client Add Review for Restaurant
         Route::post('/add-review',[ClientAuthController::class,'addReview']);
         //Display All Restaurants reviews for Clients
