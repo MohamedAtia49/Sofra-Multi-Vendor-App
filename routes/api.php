@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ClientAuthController;
+use App\Http\Controllers\Api\CommissionController;
 use App\Http\Controllers\Api\MainController;
 use App\Http\Controllers\Api\MealController;
 use App\Http\Controllers\Api\OrderController;
@@ -104,7 +105,8 @@ Route::prefix('v1')->group(function () {
         //Restaurant Logout (Delete All Tokens)
         Route::get('/restaurant/logout', [RestaurantAuthController::class, 'restaurantLogout']);
 ###################################################################################################
-        Route::get('/commission');
+        //Calculate Every Restaurant Commission in App
+        Route::get('/restaurant/commission',[CommissionController::class,'commission']);
     });
 });
 
