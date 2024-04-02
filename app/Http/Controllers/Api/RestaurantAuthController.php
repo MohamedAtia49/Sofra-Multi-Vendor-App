@@ -9,6 +9,8 @@ use App\Http\Requests\Restaurant\RestaurantRegisterRequest;
 use App\Http\Requests\Restaurant\RestaurantResetPasswordRequest;
 use App\Http\Requests\Restaurant\RestaurantSendPinCodeRequest;
 use App\Services\RestaurantService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class RestaurantAuthController extends Controller
 {
@@ -35,5 +37,10 @@ class RestaurantAuthController extends Controller
 
     public function allReviews(RestaurantAllReviewsRequest $request){
         return $this->restaurantService->allReviews($request);
+    }
+
+    public function restaurantLogout(Request $request){
+        Auth::guard('sanctum')->user()->tokens()->delete();
+        return responseJson(200,'Successfully logged out');
     }
 }

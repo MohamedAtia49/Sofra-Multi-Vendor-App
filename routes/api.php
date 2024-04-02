@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\MainController;
 use App\Http\Controllers\Api\MealController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\RestaurantAuthController;
+use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\OfferController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -76,14 +77,34 @@ Route::prefix('v1')->group(function () {
         Route::post('/restaurant-reject-order',[OrderController::class,'restaurantRejectOrder']);
         //(Restaurant Make Full-Delivered Order)
         Route::post('/restaurant-delivered-order',[OrderController::class,'restaurantDeliveredOrder']);
-#############################################
+###################################################################################################
         //Client Add Review for Restaurant
         Route::post('/add-review',[ClientAuthController::class,'addReview']);
         //Display All Restaurants reviews for Clients
         Route::get('/all-reviews',[RestaurantAuthController::class,'allReviews']);
-        //Settings Api
-        Route::patch('/settings/update',[MainController::class,'settings']);
-
+###################################################################################################
+        #-----------------Client Settings Apis-----------------#
+        //Get All Offers
+        Route::get('/all-offers',[SettingsController::class,'allOffers']);
+        //Send Contact Message By Client
+        Route::post('/client/send-contact',[SettingsController::class,'clientContactUs']);
+        //Get About_App Content text
+        Route::get('/about-app',[SettingsController::class,'aboutApp']);
+        //Client Logout (Delete All Tokens)
+        Route::get('/client/logout', [ClientAuthController::class, 'clientLogout']);
+        #-----------------Restaurant Settings Apis-----------------#
+        //Get My Offers (Restaurants)
+        Route::get('/my-offers',[SettingsController::class,'myOffers']);
+        //Send Contact Message By Restaurant
+        Route::post('/restaurant/send-contact',[SettingsController::class,'restaurantContactUs']);
+        //Get About_App Content text
+        Route::get('/about-app',[SettingsController::class,'aboutApp']);
+        //Get My Reviews
+        Route::get('/my-reviews',[SettingsController::class,'myReviews']);
+        //Restaurant Logout (Delete All Tokens)
+        Route::get('/restaurant/logout', [RestaurantAuthController::class, 'restaurantLogout']);
+###################################################################################################
+        Route::get('/commission');
     });
 });
 

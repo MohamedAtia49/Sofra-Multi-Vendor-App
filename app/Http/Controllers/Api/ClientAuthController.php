@@ -11,6 +11,8 @@ use App\Http\Requests\Client\ClientSendPinCodeRequest;
 use App\Models\Client;
 use App\Services\ClientService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class ClientAuthController extends Controller
 {
@@ -42,5 +44,15 @@ class ClientAuthController extends Controller
     public function addReview(ClientAddReviewRequest $request){
 
         return $this->clientService->addReview($request);
+    }
+
+    public function clientLogout(Request $request){
+
+        $userAuth = Auth::guard('sanctum')->user();
+        if ($userAuth) {
+            $userAuth->tokens()->delete();
+            return responseJson(200,'Successfully logged out');
+        }
+
     }
 }
