@@ -10,7 +10,7 @@ class SettingController extends Controller
 {
     public function index(){
         $record = Setting::find(1);
-        return view('settings.edit',compact('record'));
+        return view('admin.settings.edit',compact('record'));
     }
     public function edit(Request $request)
     {

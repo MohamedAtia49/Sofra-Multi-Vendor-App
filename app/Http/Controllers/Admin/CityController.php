@@ -11,12 +11,12 @@ class CityController extends Controller
     public function index()
     {
         $records = City::all();
-        return view('cities.index',compact('records'));
+        return view('admin.cities.index',compact('records'));
     }
 
     public function create()
     {
-        return view('cities.create');
+        return view('admin.cities.create');
     }
 
     public function store(Request $request)
@@ -31,7 +31,7 @@ class CityController extends Controller
     public function edit($id)
     {
         $record = City::find($id);
-        return view('cities.edit',compact('record'));
+        return view('admin.cities.edit',compact('record'));
     }
 
     public function update(Request $request, $id)

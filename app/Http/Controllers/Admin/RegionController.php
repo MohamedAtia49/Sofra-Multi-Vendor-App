@@ -13,14 +13,14 @@ class RegionController extends Controller
     public function index()
     {
         $records = Region::with('city')->get();
-        return view('regions.index',compact('records'));
+        return view('admin.regions.index',compact('records'));
     }
 
 
     public function create()
     {
         $cities = City::all();
-        return view('regions.create',compact('cities'));
+        return view('admin.regions.create',compact('cities'));
     }
 
 
@@ -38,7 +38,7 @@ class RegionController extends Controller
     {
         $record = Region::with('city')->find($id);
         $cities = City::all();
-        return view('regions.edit',compact('record','cities'));
+        return view('admin.regions.edit',compact('record','cities'));
 
     }
 

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Offer\OfferCreateRequest;
 use App\Http\Requests\Offer\OfferDeleteRequest;
 use App\Http\Requests\Offer\OfferUpdateRequest;

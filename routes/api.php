@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\MealController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\RestaurantAuthController;
 use App\Http\Controllers\Api\SettingsController;
-use App\Http\Controllers\OfferController;
+use App\Http\Controllers\Api\OfferController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

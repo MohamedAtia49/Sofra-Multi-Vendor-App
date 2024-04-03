@@ -3,16 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Contact;
+use App\Models\Offer;
 use Illuminate\Http\Request;
 
-class ContactController extends Controller
+class OfferController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $records = Contact::all();
-        return view('admin.contacts.index',compact('records'));
+        $records = Offer::with('restaurant')
+                    ->whereHas('restaurant',function($query) use($request){
+                        $query->where('name','like',"%$request->search%");
+                    })->orWhere('meal_name','like',"%$request->search%")
+                    ->get();
+        return view('admin.offers.index',compact('records'));
     }
 
 
@@ -20,7 +24,6 @@ class ContactController extends Controller
     {
         //
     }
-
 
     public function store(Request $request)
     {
@@ -32,22 +35,19 @@ class ContactController extends Controller
         //
     }
 
-
     public function edit($id)
     {
         //
     }
-
 
     public function update(Request $request, $id)
     {
         //
     }
 
+
     public function destroy($id)
     {
-        $record = Contact::find($id);
-        $record->delete();
-        return redirect()->back();
+        //
     }
 }

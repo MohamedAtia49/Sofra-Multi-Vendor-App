@@ -3,7 +3,9 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\RegionController;
+use App\Http\Controllers\Admin\RestaurantController;
 use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/admin/login', function () {
     return view('admin.login');
-})->name('admin.login');
+})->name('admin.login')->middleware('guest:web');
 
 Auth::routes(['register' => false]);
 
@@ -40,5 +42,16 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('/contacts', ContactController::class);
     //Settings
     Route::resource('/settings', SettingController::class);
+    //Settings
+    Route::resource('/offers', SettingController::class);
+    //Offers
+    Route::resource('/offers', OfferController::class);
 
+
+    //Restaurants
+    Route::resource('/restaurants', RestaurantController::class);
+    ### Active Restaurant ###
+    Route::post('/restaurants-active/{id}',[RestaurantController::class,'active'])->name('restaurants.active');
+    ### De Active Restaurant ###
+    Route::post('/restaurants-de-active/{id}',[RestaurantController::class,'deActive'])->name('restaurants.deActive');
 });

@@ -145,6 +145,40 @@
                             </li>
                         </ul>
                     <li class="nav-item">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-bars"></i>
+                            <p>
+                                Offers
+                            <i class="right fas fa-angle-left"></i>
+                            </p>
+                          </a>
+                          <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('offers.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All Offers</p>
+                                </a>
+                            </li>
+                        </ul>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-users"></i>
+                            <p>
+                                Restaurants
+                            <i class="right fas fa-angle-left"></i>
+                            </p>
+                          </a>
+                          <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('restaurants.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All Restaurants</p>
+                                </a>
+                            </li>
+                        </ul>
+                    <li class="nav-item">
+                    <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-users"></i>
                             <p>

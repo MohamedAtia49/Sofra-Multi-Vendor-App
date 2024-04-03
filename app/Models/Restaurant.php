@@ -13,7 +13,7 @@ class Restaurant extends Authenticatable
     use HasApiTokens;
     protected $table = 'restaurants';
     public $timestamps = true;
-    protected $fillable = array('name', 'email', 'password', 'phone', 'minimum_charge', 'delivery_cost', 'image', 'whats_up', 'status', 'region_id','pin_code');
+    protected $fillable = array('name', 'email', 'password', 'phone', 'minimum_charge', 'delivery_cost', 'image', 'whats_up', 'visibility','is_active', 'region_id','pin_code');
 
     public function meals()
     {

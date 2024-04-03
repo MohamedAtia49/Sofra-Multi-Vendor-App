@@ -12,13 +12,13 @@ class CategoryController extends Controller
     public function index()
     {
         $records = Category::all();
-        return view('categories.index',compact('records'));
+        return view('admin.categories.index',compact('records'));
     }
 
 
     public function create()
     {
-        return view('categories.create');
+        return view('admin.categories.create');
     }
 
 
@@ -34,7 +34,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $record = Category::find($id);
-        return view('categories.edit',compact('record'));
+        return view('admin.categories.edit',compact('record'));
     }
 
     public function update(Request $request, $id)

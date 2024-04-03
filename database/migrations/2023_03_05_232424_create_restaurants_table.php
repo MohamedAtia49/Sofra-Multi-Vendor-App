@@ -18,7 +18,8 @@ class CreateRestaurantsTable extends Migration {
 			$table->double('delivery_cost', 8,2)->default(0);
 			$table->string('image')->nullable();
 			$table->string('whats_up');
-			$table->enum('status',['opened' , 'closed'])->default('opened');
+			$table->enum('visibility',['opened' , 'closed'])->default('opened');
+			$table->boolean('is_active')->default(1);
 			$table->integer('region_id')->unsigned();
             $table->string('pin_code')->nullable();
 		});

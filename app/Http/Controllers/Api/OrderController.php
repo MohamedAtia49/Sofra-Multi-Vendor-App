@@ -27,7 +27,7 @@ class OrderController extends Controller
         $restaurant = Restaurant::find($request->restaurant_id);
 
         // If restaurant Closed u cant make Order
-        if ($restaurant->status == 'closed'){
+        if ($restaurant->visibility == 'closed'){
             return responseJson(0,'عذرا المطعم غير متاح فى الوقت الحالى');
         }
 
