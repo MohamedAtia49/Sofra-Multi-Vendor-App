@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('page_title')
-    Restaurants
+    clients
 @endsection
 
 @section('content')
@@ -22,11 +22,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Image</th>
-                <th>Minimum Charge</th>
-                <th>Whats Up</th>
                 <th>City</th>
-                <th>Show</th>
                 <th>Active</th>
                 <th>De Active</th>
                 <th>Delete</th>
@@ -39,14 +35,10 @@
                 <td>{{ $record->name }}</td>
                 <td>{{ $record->email }}</td>
                 <td>{{ $record->phone }}</td>
-                <td>{{ $record->image }}</td>
-                <td>{{ $record->minimum_charge }}</td>
-                <td>{{ $record->whats_up }}</td>
                 <td>{{ $record->region->city->name }}</td>
-                <td><a class="btn btn-primary" href="#">Show</a></td>
                 @if ($record->is_active == 0)
                 <td>
-                    <form action="{{ route('restaurants.active', $record->id) }}" method="post">
+                    <form action="{{ route('clients.active', $record->id) }}" method="post">
                         @csrf
                         @method('post')
                         <button type="submit" class="btn btn-success">Active</button>
@@ -56,7 +48,7 @@
                 @elseif ($record->is_active == 1)
                 <td>Active</td>
                 <td>
-                    <form action="{{ route('restaurants.deActive', $record->id) }}" method="post">
+                    <form action="{{ route('clients.deActive', $record->id) }}" method="post">
                         @csrf
                         @method('post')
                         <button type="submit" class="btn btn-warning">De Active</button>
@@ -64,7 +56,7 @@
                 </td>
                 @endif
                 <td>
-                    <form action="{{ route('restaurants.destroy', $record->id) }}" method="post">
+                    <form action="{{ route('clients.destroy', $record->id) }}" method="post">
                         @csrf
                         @method('delete')
                         <button type="submit" class="btn btn-danger">Delete</button>

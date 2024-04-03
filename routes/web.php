@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\RegionController;
@@ -54,4 +55,11 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('/restaurants-active/{id}',[RestaurantController::class,'active'])->name('restaurants.active');
     ### De Active Restaurant ###
     Route::post('/restaurants-de-active/{id}',[RestaurantController::class,'deActive'])->name('restaurants.deActive');
+
+    //Clients
+    Route::resource('/clients', ClientController::class);
+    ### Active Restaurant ###
+    Route::post('/clients-active/{id}',[ClientController::class,'active'])->name('clients.active');
+    ### De Active Restaurant ###
+    Route::post('/clients-de-active/{id}',[ClientController::class,'deActive'])->name('clients.deActive');
 });

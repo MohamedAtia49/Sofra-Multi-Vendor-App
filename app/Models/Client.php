@@ -11,9 +11,9 @@ class Client extends Authenticatable
     use HasApiTokens;
     protected $table = 'clients';
     public $timestamps = true;
-    protected $fillable = array('name', 'email', 'password', 'phone', 'region_id','pin_code');
+    protected $fillable = array('name', 'email', 'password', 'phone', 'region_id','is_active','pin_code');
 
-    public function regions()
+    public function region()
     {
         return $this->belongsTo('App\Models\Region');
     }

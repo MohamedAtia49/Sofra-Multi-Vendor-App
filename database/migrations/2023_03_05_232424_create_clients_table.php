@@ -15,6 +15,7 @@ class CreateClientsTable extends Migration {
 			$table->string('password');
 			$table->string('phone');
 			$table->integer('region_id')->unsigned();
+            $table->boolean('is_active')->default(1);
             $table->string('pin_code')->nullable();
 		});
 	}
