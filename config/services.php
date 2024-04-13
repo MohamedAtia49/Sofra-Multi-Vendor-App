@@ -31,4 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'browsershot' => [
+        'node' => env('BROWSERSHOT_NODE_BINARY',NULL),
+        'node' => env('BROWSERSHOT_NPM_BINARY',NULL),
+        'node' => env('BROWSERSHOT_CHROME_BINARY',NULL),
+    ],
+
 ];

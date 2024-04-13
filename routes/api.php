@@ -92,7 +92,7 @@ Route::prefix('v1')->group(function () {
         //Get About_App Content text
         Route::get('/about-app',[SettingsController::class,'aboutApp']);
         //Client Logout (Delete All Tokens)
-        Route::get('/client/logout', [ClientAuthController::class, 'clientLogout']);
+        Route::delete('/client/logout', [ClientAuthController::class, 'clientLogout']);
         #-----------------Restaurant Settings Apis-----------------#
         //Get My Offers (Restaurants)
         Route::get('/my-offers',[SettingsController::class,'myOffers']);

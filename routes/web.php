@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\OfferController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\RestaurantController;
 use App\Http\Controllers\Admin\SettingController;
@@ -62,4 +63,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('/clients-active/{id}',[ClientController::class,'active'])->name('clients.active');
     ### De Active Restaurant ###
     Route::post('/clients-de-active/{id}',[ClientController::class,'deActive'])->name('clients.deActive');
+
+    //Orders
+    Route::resource('/orders', OrderController::class);
+    Route::get('/orders-pdf', [OrderController::class,'generatePDF'])->name('generate.pdf');
+
 });

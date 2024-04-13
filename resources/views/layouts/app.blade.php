@@ -162,6 +162,23 @@
                             </li>
                         </ul>
                     <li class="nav-item">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-bars"></i>
+                            <p>
+                                Orders
+                            <i class="right fas fa-angle-left"></i>
+                            </p>
+                          </a>
+                          <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('orders.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All Orders</p>
+                                </a>
+                            </li>
+                        </ul>
+                    <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-users"></i>
                             <p>
