@@ -11,6 +11,8 @@ use App\Models\Region;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,11 +23,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name' => 'Mohamed Atia',
-            'email' => 'atia@admin.com',
-            'password' => bcrypt('2480123m'),
+        $record = User::create([
+                    'name' => 'Mohamed Atia',
+                    'email' => 'atia@admin.com',
+                    'password' => bcrypt('2480123m'),
         ]);
+
+        Permission::create([
+            'name' => 'mange-site',
+        ]);
+
+        Role::create([
+            'name' => 'super-admin',
+        ]);
+
+        Role::find(1)->givePermissionTo('mange-site');
+
+        User::find(1)->assignRole('super-admin');
+
+        $roles = $record->roles;
+
+        foreach ($roles as $role){
+            $permission = $role->permissions;
+            $record->givePermissionTo($permission);
+        }
+
         City::create([
             'name' => 'المنصورة',
         ]);
