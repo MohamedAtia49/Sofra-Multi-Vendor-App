@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\RestaurantController;
 use App\Http\Controllers\Admin\RoleController;
@@ -36,6 +37,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     //Admin Home
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+     //profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change.password');
+    Route::post('/profile/password-save', [ProfileController::class, 'passwordSave'])->name('profile.password.save');
 
 ############################################### Super Admin Or Admin or Editor #################################################
     Route::group(['middleware' => ['role:super-admin|admin|editor']], function () {
