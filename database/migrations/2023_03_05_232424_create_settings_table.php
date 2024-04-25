@@ -9,10 +9,10 @@ class CreateSettingsTable extends Migration {
 	{
 		Schema::create('settings', function(Blueprint $table) {
 			$table->increments('id');
+			$table->string('key');
+			$table->longText('value');
+			$table->enum('type',['text','number','file']);
 			$table->timestamps();
-			$table->longText('about_app');
-            $table->double('commission', 8,2)->default(.1);
-			$table->string('app_commissions_text');
 		});
 	}
 
