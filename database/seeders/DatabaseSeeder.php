@@ -62,9 +62,16 @@ class DatabaseSeeder extends Seeder
         Category::create([
             'name' => 'IceCreams',
         ]);
+
         Setting::create([
-            'about_app' => 'Welcome To Sofra App we glad to see you here and hope for you to find what you search about if it is food or drinks or iceCreams !!',
-            'app_commissions_text' => 'We will take about 10% about All order you will make',
+            'key' => 'about_app',
+            'value' => 'Welcome To Sofra App we glad to see you here and hope for you to find what you search about if it is food or drinks or iceCreams !!',
+            'type' => 'text',
+        ]);
+        Setting::create([
+            'key' => 'app_commissions_text',
+            'value' => 'We will take about 10% about All order you will make',
+            'type' => 'text',
         ]);
     }
 }

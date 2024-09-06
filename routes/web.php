@@ -55,8 +55,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::resource('/contacts', ContactController::class);
         //Settings
         Route::resource('/settings', SettingController::class);
-        //Settings
-        Route::resource('/offers', SettingController::class);
+        //Offers
+        Route::resource('/offers', OfferController::class);
 
     });
 ############################################### Super Admin Or Admin #################################################

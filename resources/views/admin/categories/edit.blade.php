@@ -30,7 +30,7 @@
             <label class="text-center">Category Name</label>
             <input type="text" value="{{ $record->name }}" name="name" class="form-control form-control-lg mb-3" placeholder="Category Name">
             <button type="submit" class="btn btn-primary btn-outline-warning">Update</button>
-          </form>
+        </form>
     </div> <!-- card-body -->
 </div> <!-- card -->
 </div> <!-- col-md-8 -->

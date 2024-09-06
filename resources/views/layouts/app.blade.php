@@ -239,7 +239,13 @@
                             <li class="nav-item">
                                 <a href="{{ route('settings.index') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Settings</p>
+                                    <p>All Settings</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('settings.create') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Create Setting</p>
                                 </a>
                             </li>
                         </ul>

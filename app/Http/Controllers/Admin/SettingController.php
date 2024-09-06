@@ -8,24 +8,55 @@ use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
-    public function index(){
-        $record = Setting::find(1);
-        return view('admin.settings.edit',compact('record'));
+        public function index(){
+        $records = Setting::all();
+        return view('admin.settings.index',compact('records'));
     }
-    public function edit(Request $request)
+    public function create()
     {
-        //
+        // $records = Setting::all();
+        $types = ['text','number','file'];
+        return view('admin.settings.create',compact('types'));
     }
 
-    public function update(Request $request, $id)
+    public function store(Request $request)
     {
         $request->validate([
-            'about_app' => 'required',
-            'app_commissions_text' => 'required',
+            'key' => 'required',
+            'value' => 'required',
+            'type' => 'required',
         ]);
-        $record = Setting::find($id);
-        $record->update($request->all());
-        return redirect()->back();
+        Setting::create($request->all());
+        return redirect()->back()->with('message','Setting Created Successfully!!');
     }
 
+    public function edit($id){
+        $record = Setting::find($id);
+        $types = ['text','number','file'];
+        $setting_type = $record->type ;
+        // dd($setting_type);
+        return view('admin.settings.edit',compact('record','types','setting_type'));
+    }
+
+    public function update(Request $request,$id)
+    {
+        $request->validate([
+            'key' => 'required',
+            'value' => 'required',
+            'type' => 'required',
+        ]);
+        $record = Setting::find($id);
+        $record->update([
+            'key' => $request->key,
+            'value' => $request->key,
+            'type' => $request->type,
+        ]);
+        return redirect()->back()->with('message','Setting Updated Successfully!!');
+    }
+
+    public function destroy($id){
+        $record = Setting::find($id);
+        $record->delete();
+        return redirect()->back();
+    }
 }

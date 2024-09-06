@@ -10,7 +10,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header text-center">
-                    <h2>Edit Settings</h2>
+                    <h2>Edit Setting</h2>
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -20,19 +20,29 @@
                             </ul>
                         </div>
                     @endif
-
+                    @if (session('message'))
+                        <div class="alert alert-success">
+                            {{ session('message') }}
+                        </div>
+                    @endif
                 </div> <!-- card-header -->
 
     <div class="card-body text-center">
-        <form action="{{ route('settings.update', $record->id) }}" method="post">
+        <form action="{{ route('settings.update',$record->id) }}" method="post">
             @csrf
-            @method('put')
-            <label class="text-center">App Commissions</label>
-            <input type="text" value="{{ $record->app_commissions_text }}" name="app_commissions_text" class="form-control form-control-lg mb-3" placeholder="App Commissions">
-            <label class="text-center">About App</label>
-            <textarea name="about_app" rows="4" class="form-control">{{ $record->about_app }}</textarea>
+            @method('PUT')
+            <label class="text-center">Key Name</label>
+            <input type="text" name="key" value="{{ $record->key }}" class="form-control form-control-lg mb-3" placeholder="Key Name">
+            <label class="text-center">Value</label>
+            <textarea name="value" rows="4" class="form-control mb-3">{{ $record->value }}</textarea>
+            <select name="type" class="form-control mb-3">
+                <option value="" readonly disabled>Type</option>
+                @foreach ($types as $type)
+                        <option value="{{ $type }}" @if($setting_type == $type) selected @endif>{{ $type }}</option>
+                @endforeach
+            </select>
             <button type="submit" class="btn btn-primary btn-outline-warning">Update</button>
-          </form>
+        </form>
     </div> <!-- card-body -->
 </div> <!-- card -->
 </div> <!-- col-md-8 -->
