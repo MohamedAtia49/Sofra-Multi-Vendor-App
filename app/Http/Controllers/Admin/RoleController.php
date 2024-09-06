@@ -3,63 +3,49 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Role\RoleStoreRequest;
+use App\Http\Requests\Role\RoleUpdateRequest;
+use App\Interfaces\RoleRepositoryInterface;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
+    private $roleRepository;
+    private $role;
+    public function __construct(RoleRepositoryInterface $roleRepository , Role $role)
+    {
+        $this->roleRepository = $roleRepository;
+        $this->role = $role;
+    }
     public function index()
     {
-        $records = Role::with('permissions')->get();
-        return view('admin.roles.index',compact('records'));
+        return $this->roleRepository->all($this->role);
     }
 
     public function create()
     {
-        $records = Permission::all();
-        return view('admin.roles.create',compact('records'));
+        return $this->roleRepository->create('admin.roles.create');
     }
 
-    public function store(Request $request)
+    public function store(RoleStoreRequest $request)
     {
-        $request->validate([
-            'name' => 'required|unique:roles,name',
-            'permissions' => 'required|array',
-            'permissions.*' => 'exists:permissions,id',
-        ]);
-
-        $record = Role::create($request->all());
-        $record->givePermissionTo($request->permissions,[]);
-        return redirect('/admin/roles')->with('message','Role Created Successfully!!');
+        return $this->roleRepository->store($this->role,$request->all());
     }
 
     public function edit(string $id)
     {
-        $record = Role::with('permissions')->find($id);
-        $permissions = Permission::all();
-        return view('admin.roles.edit',compact('record','permissions'));
+        return $this->roleRepository->edit($this->role,$id);
     }
 
-    public function update(Request $request, string $id)
+    public function update(RoleUpdateRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|unique:roles,name,'.$id,
-            'permissions' => 'required|array',
-            'permissions.*' => 'exists:permissions,id',
-        ]);
-
-        $record = tap(Role::find($id))->update($request->all());
-        $record->syncPermissions($request->permissions,[]);
-
-        return redirect('/admin/roles')->with('message','Role Updated !');
+        return $this->roleRepository->update($this->role,$id,$request->all());
     }
 
     public function destroy(string $id)
     {
-        $record = Role::find($id);
-        $record->delete();
-
-        return redirect()->back()->with('deleted_message','Role Deleted !');
+        return $this->roleRepository->destroy($this->role,$id);
     }
 }

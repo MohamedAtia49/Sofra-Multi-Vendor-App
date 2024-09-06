@@ -3,60 +3,47 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Setting\SettingStoreRequest;
+use App\Http\Requests\Setting\SettingUpdateRequest;
+use App\Interfaces\SettingRepositoryInterface;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
-        public function index(){
-        $records = Setting::all();
-        return view('admin.settings.index',compact('records'));
+
+    private $settingRepository;
+    private $setting;
+
+    public function __construct(SettingRepositoryInterface $settingRepository , Setting $city)
+    {
+        $this->settingRepository = $settingRepository;
+        $this->setting = $city;
+    }
+    public function index(){
+        return $this->settingRepository->all($this->setting);
     }
     public function create()
     {
-        // $records = Setting::all();
-        $types = ['text','number','file'];
-        return view('admin.settings.create',compact('types'));
+        return $this->settingRepository->create('admin.settings.create');
     }
 
-    public function store(Request $request)
+    public function store(SettingStoreRequest $request)
     {
-        $request->validate([
-            'key' => 'required',
-            'value' => 'required',
-            'type' => 'required',
-        ]);
-        Setting::create($request->all());
-        return redirect()->back()->with('message','Setting Created Successfully!!');
+        return $this->settingRepository->store($this->setting,$request->all());
     }
 
     public function edit($id){
-        $record = Setting::find($id);
-        $types = ['text','number','file'];
-        $setting_type = $record->type ;
-        // dd($setting_type);
-        return view('admin.settings.edit',compact('record','types','setting_type'));
+
+        return $this->settingRepository->edit($this->setting,$id);
     }
 
-    public function update(Request $request,$id)
+    public function update(SettingUpdateRequest $request,$id)
     {
-        $request->validate([
-            'key' => 'required',
-            'value' => 'required',
-            'type' => 'required',
-        ]);
-        $record = Setting::find($id);
-        $record->update([
-            'key' => $request->key,
-            'value' => $request->key,
-            'type' => $request->type,
-        ]);
-        return redirect()->back()->with('message','Setting Updated Successfully!!');
+        return $this->settingRepository->update($this->setting,$id,$request->all());
     }
 
     public function destroy($id){
-        $record = Setting::find($id);
-        $record->delete();
-        return redirect()->back();
+        return $this->settingRepository->destroy($this->setting,$id);
     }
 }

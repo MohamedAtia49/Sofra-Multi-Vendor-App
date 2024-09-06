@@ -37,7 +37,7 @@
                 @endforeach
             </select>
             <button type="submit" class="btn btn-primary btn-outline-warning">Update</button>
-          </form>
+        </form>
     </div> <!-- card-body -->
 </div> <!-- card -->
 </div> <!-- col-md-8 -->

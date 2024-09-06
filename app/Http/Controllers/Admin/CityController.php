@@ -3,51 +3,43 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\City\CityStoreRequest;
+use App\Http\Requests\City\CityUpdateRequest;
+use App\Interfaces\CityRepositoryInterface;
 use App\Models\City;
 use Illuminate\Http\Request;
 
 class CityController extends Controller
 {
+    private $cityRepository;
+    private $city;
+    public function __construct(CityRepositoryInterface $cityRepository , City $city)
+    {
+        $this->cityRepository = $cityRepository;
+        $this->city = $city;
+    }
     public function index()
     {
-        $records = City::all();
-        return view('admin.cities.index',compact('records'));
+        return $this->cityRepository->all($this->city);
     }
-
     public function create()
     {
-        return view('admin.cities.create');
+        return $this->cityRepository->create('admin.cities.create');
     }
-
-    public function store(Request $request)
+    public function store(CityStoreRequest $request)
     {
-        $request->validate([
-            'name' => 'required|unique:cities,name',
-        ]);
-        City::create($request->all());
-        return redirect()->route('cities.index');
+        return $this->cityRepository->store($this->city,$request->all());
     }
-
     public function edit($id)
     {
-        $record = City::find($id);
-        return view('admin.cities.edit',compact('record'));
+        return $this->cityRepository->edit($this->city,$id);
     }
-
-    public function update(Request $request, $id)
+    public function update(CityUpdateRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|unique:cities,name',
-        ]);
-        $record = City::find($id);
-        $record->update($request->all());
-        return redirect()->route('cities.index');
+        return $this->cityRepository->update($this->city,$id,$request->all());
     }
-
     public function destroy($id)
     {
-        $record = City::find($id);
-        $record->delete();
-        return redirect()->back();
+        return $this->cityRepository->destroy($this->city,$id);
     }
 }

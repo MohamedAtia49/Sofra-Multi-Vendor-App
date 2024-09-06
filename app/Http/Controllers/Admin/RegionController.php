@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Region\RegionStoreRequest;
+use App\Http\Requests\Region\RegionUpdateRequest;
 use App\Interfaces\RegionRepositoryInterface;
 use App\Models\City;
 use App\Models\Region;
@@ -36,7 +37,7 @@ class RegionController extends Controller
     {
         return $this->regionRepository->edit($this->region,$id);
     }
-    public function update(Request $request, $id)
+    public function update(RegionUpdateRequest $request, $id)
     {
         return $this->regionRepository->update($this->region,$id,$request->all());
     }

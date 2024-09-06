@@ -29,7 +29,7 @@ class CategoryController extends Controller
 
     public function store(CategoryStoreRequest $request)
     {
-        return $this->categoryRepository->store($this->category,$request->all());
+        return $this->categoryRepository ->store($this->category,$request->all());
     }
 
     public function edit($id)
