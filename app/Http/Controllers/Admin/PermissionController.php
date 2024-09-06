@@ -3,56 +3,51 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Permission\PermissionStoreRequest;
+use App\Http\Requests\Permission\PermissionUpdateRequest;
+use App\Interfaces\PermissionRepositoryInterface;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
 
+    private $permissionRepository;
+    private $permission;
+    public function __construct(PermissionRepositoryInterface $permissionRepository , Permission $permission)
+    {
+        $this->permissionRepository = $permissionRepository;
+        $this->permission = $permission;
+    }
     public function index()
     {
-        $records = Permission::all();
-        return view('admin.permission.index',compact('records'));
+        return $this->permissionRepository->all($this->permission);
     }
 
 
     public function create()
     {
-        return view('admin.permission.create');
+        return $this->permissionRepository->create('admin.permissions.create');
     }
 
 
-    public function store(Request $request)
+    public function store(PermissionStoreRequest $request)
     {
-        $request->validate([
-            'name' => 'required|unique:permissions,name',
-        ]);
-        Permission::create($request->all());
-        return redirect('/admin/permissions')->with('message','Permission Created Successfully !!');
+        return $this->permissionRepository->store($this->permission,$request->all());
     }
 
     public function edit(string $id)
     {
-        $record = Permission::find($id);
-        return view('admin.permission.edit',compact('record'));
+        return $this->permissionRepository->edit($this->permission,$id);
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(PermissionUpdateRequest $request, string $id)
     {
-        $request->validate([
-            'name' => 'required|unique:permissions,name',
-        ]);
-        $record = Permission::find($id);
-        $record->update($request->all());
-        return redirect('/admin/permissions')->with('message','Permission Updated Successfully !!');
+        $this->permissionRepository->update($this->permission,$id,$request->all());
     }
-
-
     public function destroy(string $id)
     {
-        $record = Permission::find($id);
-        $record->delete();
-        return redirect()->back()->with('deleted_message','Permission Deleted Successfully !!');
+        return $this->permissionRepository->destroy($this->permission,$id);
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+admins@extends('layouts.app')
 
 @section('page_title')
     Cities

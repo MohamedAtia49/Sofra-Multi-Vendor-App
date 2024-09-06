@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\AdminStoreRequest;
+use App\Http\Requests\Admin\AdminUpdateRequest;
+use App\Interfaces\AdminRepositoryInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -10,82 +13,36 @@ use Spatie\Permission\Models\Role;
 class AdminController extends Controller
 {
 
+    private $adminRepository;
+    private $admin;
+    public function __construct(AdminRepositoryInterface $adminRepository , User $admin)
+    {
+        $this->adminRepository = $adminRepository;
+        $this->admin = $admin;
+    }
     public function index()
     {
-        $records = User::with('roles')->get();
-        return view('admin.admins.index',compact('records'));
+        return $this->adminRepository->all($this->admin);
     }
-
-
-
     public function create()
     {
-        $records = Role::all();
-        return view('admin.admins.create',compact('records'));
+        return $this->adminRepository->create('admin.admins.create');
     }
 
-    public function store(Request $request)
+    public function store(AdminStoreRequest $request)
     {
-        $request->validate([
-            'name' => 'required|unique:users,name',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|between:8,255|confirmed',
-            'roles' => 'required|array',
-            'roles.*' => 'exists:roles,id',
-        ]);
-        $record = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
-
-        $roles = $record->assignRole($request->roles,[]);
-
-        $roles = $record->roles;
-        foreach ($roles as $role){
-            $permissions = $role->permissions;
-            $record->givePermissionTo($permissions);
-        }
-
-        return redirect('/admin/admins')->with('message','Admin Created Successfully!!');
+        return $this->adminRepository->store($this->admin,$request->all());
     }
-
     public function edit(string $id)
     {
-        $record = User::find($id);
-        $roles = Role::all();
-        return view('admin.admins.edit',compact('record','roles'));
+        return $this->adminRepository->edit($this->admin,$id);
     }
-
-    public function update(Request $request, string $id)
+    public function update(AdminUpdateRequest $request, string $id)
     {
-        $record = User::find($id);
-        $record->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
-
-        $roles = $record->syncRoles($request->roles,[]);
-
-        $roles = $record->roles;
-        foreach ($roles as $role){
-            $permissions[] = $role->permissions;
-        }
-        $record->syncPermissions($permissions);
-
-        return redirect('/admin/admins')->with('message','Admin Updated Successfully!!');
-
+        return $this->adminRepository->update($this->admin,$id,$request->all());
     }
-
     public function destroy(string $id)
     {
-        $record = User::find($id);
-        if($record->id == 1){
-            return redirect()->back()->with('cant_delete_super_admin','Sorry Super Admin Cant be Deleted!');
-        }else{
-            $record->delete();
-            return redirect()->back()->with('deleted_message','User Deleted Successfully!!');
-        }
+        return $this->adminRepository->destroy($this->admin,$id);
     }
 }

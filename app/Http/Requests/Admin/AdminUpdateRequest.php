@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Requests\Role;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-class RoleUpdateRequest extends FormRequest
+
+class AdminUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
-
     public function authorize(): bool
     {
         return true;
@@ -23,9 +23,11 @@ class RoleUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', Rule::unique('roles')->ignore($this->role)],
-            'permissions' => 'required|array',
-            'permissions.*' => 'exists:permissions,id',
+            'name' => ['required', Rule::unique('users')->ignore($this->user)],
+            'email' => ['required','email',Rule::unique('users')->ignore($this->user)],
+            'password' => 'required|confirmed',
+            'roles' => 'required|array',
+            'roles.*' => 'exists:roles,id',
         ];
     }
 }
