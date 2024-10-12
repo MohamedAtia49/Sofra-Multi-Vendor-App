@@ -16,6 +16,7 @@ use App\Repositories\PermissionRepository;
 use App\Repositories\RegionRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\SettingRepository;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -43,6 +44,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Paginator::useBootstrap();
     }
 }

@@ -7,11 +7,14 @@ use App\Http\Requests\Restaurant\RestaurantLoginRequest;
 use App\Http\Requests\Restaurant\RestaurantRegisterRequest;
 use App\Http\Requests\Restaurant\RestaurantResetPasswordRequest;
 use App\Http\Requests\Restaurant\RestaurantSendPinCodeRequest;
+use App\Http\Resources\ReviewResource;
 use App\Mail\RestaurantResetPassword;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Laravel\Sanctum\Sanctum;
+
 
 class RestaurantService{
     public function restaurantRegister(RestaurantRegisterRequest $request){
@@ -66,7 +69,39 @@ class RestaurantService{
 
     public function allReviews(RestaurantAllReviewsRequest $request){
         $restaurant = Restaurant::find($request->restaurant_id);
-        $reviews = $restaurant->reviews;
-        return responseJson(200 , 'All Reviews!', $reviews);
+        $reviews = $restaurant->reviews()->paginate(3);
+
+        if (count($reviews) > 0) {
+            if ($reviews->total() > $reviews->perPage()) {
+                $data = [
+                    'data' => ReviewResource::collection($reviews),
+                    'pagination links' => [
+                        'current page' => $reviews->currentPage(),
+                        'per page' => $reviews->perPage(),
+                        'total' => $reviews->total(),
+                        'links' => [
+                            'first page' => $reviews->url(1),
+                            'next page' => $reviews->nextPageUrl(),
+                            'prev page' => $reviews->previousPageUrl(),
+                            'last page' => $reviews->url($reviews->lastPage()),
+                        ],
+                    ],
+                ];
+            } else {
+                $data = ReviewResource::collection($reviews);
+            }
+            return responseJson(200 , 'All reviews retrieved', $data);
+        }
+        return responseJson(404, 'No reviews found', []);
+    }
+
+    public function restaurantLogout(Request $request){
+
+        if ($token = $request->bearerToken()) {
+            $model = Sanctum::$personalAccessTokenModel;
+            $accessToken = $model::findToken($token);
+            $accessToken->delete();
+        }
+        return responseJson(201,'Successfully logged out');
     }
 }

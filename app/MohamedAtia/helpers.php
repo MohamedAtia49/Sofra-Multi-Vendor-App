@@ -9,12 +9,13 @@ function responseJson($status,$message,$data=null){
     return response()->json($response);
 }
 
-function settings(){
-    $settings = \App\Models\Setting::find(1);
+function commission(){
+    $settings = \App\Models\Setting::class;
 
     if ($settings){
-        return $settings;
+        $commission = $settings::where('key','commission')->first();
+        return $commission['value'];
     }else{
-        return new \App\Models\Setting ;
+        return responseJson(404,'Cant find commission',[]) ;
     }
 }

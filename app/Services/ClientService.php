@@ -7,6 +7,7 @@ use App\Http\Requests\Client\ClientLoginRequest;
 use App\Http\Requests\Client\ClientRegisterRequest;
 use App\Http\Requests\Client\ClientResetPasswordRequest;
 use App\Http\Requests\Client\ClientSendPinCodeRequest;
+use App\Http\Resources\ReviewResource;
 use App\Mail\ClientResetPassword;
 use App\Models\Client;
 use App\Models\Review;
@@ -14,6 +15,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Laravel\Sanctum\Sanctum;
 
 class ClientService{
     public function clientRegister(ClientRegisterRequest $request){
@@ -68,13 +70,28 @@ class ClientService{
     }
 
     public function addReview(ClientAddReviewRequest $request){
-        $client = $request->user();
-        $review = $client->reviews()->create([
-                    'star_rating' => $request->star_rating,
-                    'comments' => $request->comments,
-                    'restaurant_id' => $request->restaurant_id,
-                ]);
-        return responseJson(200,'Review Added Successfully !!',$review);
+        $client= auth('sanctum')->user();
+        if ($client){
+            // Create a new review for the client
+            $review = $client->reviews()->create([
+                'star_rating' => $request->star_rating,
+                'comments' => $request->comments,
+                'restaurant_id' => $request->restaurant_id,
+            ]);
+        return responseJson(200,'Review Added Successfully !!',new ReviewResource($review));
+        }else{
+            return responseJson(404,'Sorry cant find this client',[]);
+        }
+    }
+
+    public function clientLogout(Request $request){
+
+        if ($token = $request->bearerToken()) {
+            $model = Sanctum::$personalAccessTokenModel;
+            $accessToken = $model::findToken($token);
+            $accessToken->delete();
+        }
+        return responseJson(201,'Successfully logged out');
     }
 }
 

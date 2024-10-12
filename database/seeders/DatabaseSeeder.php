@@ -73,5 +73,10 @@ class DatabaseSeeder extends Seeder
             'value' => 'We will take about 10% about All order you will make',
             'type' => 'text',
         ]);
+        Setting::create([
+            'key' => 'commission',
+            'value' => 10,
+            'type' => 'number',
+        ]);
     }
 }

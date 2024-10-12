@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\ClientAddReviewRequest;
@@ -47,12 +47,6 @@ class ClientAuthController extends Controller
     }
 
     public function clientLogout(Request $request){
-
-        $userAuth = Auth::guard('sanctum')->user();
-        if ($userAuth) {
-            $userAuth->tokens()->delete();
-            return responseJson(200,'Successfully logged out');
-        }
-
+        return $this->clientService->clientLogout($request);
     }
 }

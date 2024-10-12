@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Restaurant;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Restaurant\RestaurantAllReviewsRequest;
@@ -9,8 +9,9 @@ use App\Http\Requests\Restaurant\RestaurantRegisterRequest;
 use App\Http\Requests\Restaurant\RestaurantResetPasswordRequest;
 use App\Http\Requests\Restaurant\RestaurantSendPinCodeRequest;
 use App\Services\RestaurantService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
+use Laravel\Sanctum\Sanctum;
 
 class RestaurantAuthController extends Controller
 {
@@ -40,7 +41,6 @@ class RestaurantAuthController extends Controller
     }
 
     public function restaurantLogout(Request $request){
-        Auth::guard('sanctum')->user()->tokens()->delete();
-        return responseJson(200,'Successfully logged out');
+        return $this->restaurantService->restaurantLogout($request);
     }
 }

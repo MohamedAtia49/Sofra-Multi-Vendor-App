@@ -77,6 +77,5 @@ class AdminRepository implements AdminRepositoryInterface {
             return redirect()->back()->with('deleted_message','User Deleted Successfully!!');
         }
     }
-
 }
 

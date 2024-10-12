@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Review extends Model 
+class Review extends Model
 {
 
     protected $table = 'reviews';
     public $timestamps = true;
     protected $fillable = array('star_rating', 'comments', 'client_id', 'restaurant_id');
 
-    public function clients()
+    public function client()
     {
         return $this->belongsTo('App\Models\Client');
     }
