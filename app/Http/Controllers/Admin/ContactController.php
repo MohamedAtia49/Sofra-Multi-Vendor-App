@@ -4,20 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
-use Illuminate\Http\Request;
+use App\Services\Admin\ContactService;
 
 class ContactController extends Controller
 {
+    public $contactService;
+
+    public function __construct(ContactService $contactService)
+    {
+        $this->contactService = $contactService;
+    }
 
     public function index()
     {
-        $records = Contact::paginate(4);
-        return view('admin.contacts.index',compact('records'));
+        return $this->contactService->index();
     }
     public function destroy($id)
     {
-        $record = Contact::find($id);
-        $record->delete();
-        return redirect()->back();
+        return $this->contactService->destroy($id);
+
     }
 }

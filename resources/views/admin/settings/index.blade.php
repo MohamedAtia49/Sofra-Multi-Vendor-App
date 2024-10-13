@@ -30,6 +30,7 @@
                 </tr>
             </thead>
             <tbody>
+                @if(count($records) > 0)
                 @foreach ($records as $record)
                     <tr>
                         <td>{{ $record->key }}</td>
@@ -46,6 +47,9 @@
                     </tr>
                 @endforeach
             </tbody>
+            @else
+                No data found
+            @endif
         </table>
     </div> <!-- card-body -->
 </div> <!-- card -->

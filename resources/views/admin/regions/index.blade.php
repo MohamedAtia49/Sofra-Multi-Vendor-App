@@ -16,6 +16,7 @@
             </tr>
         </thead>
         <tbody>
+            @if (count($records) > 0)
             @foreach ($records as $record)
             <tr>
                 <td>{{ $loop->iteration }}</td>
@@ -31,5 +32,8 @@
             </tr>
             @endforeach
         </tbody>
+        @else
+            No data found
+        @endif
     </table>
 @endsection

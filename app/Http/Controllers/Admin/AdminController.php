@@ -7,8 +7,6 @@ use App\Http\Requests\Admin\AdminStoreRequest;
 use App\Http\Requests\Admin\AdminUpdateRequest;
 use App\Interfaces\AdminRepositoryInterface;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {

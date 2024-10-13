@@ -4,47 +4,31 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Restaurant;
+use App\Services\Admin\RestaurantService;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
 {
+    public $restaurantService;
 
-    public function index()
+    public function __construct(RestaurantService $restaurantService)
     {
-        $records = Restaurant::with('region')->get();
-        return view('admin.restaurants.index',compact('records'));
+        $this->restaurantService = $restaurantService;
     }
-
-    public function show($id)
-    {
-        //
+    public function index(){
+        return $this->restaurantService->index();
     }
-
     public function destroy($id)
     {
-        $record = Restaurant::find($id);
-        $record->meals()->delete();
-        $record->offers()->delete();
-        $record->delete();
-        return redirect()->back();
+        return $this->restaurantService->destroy($id);
     }
 
     public function active($id)
     {
-        $restaurant = Restaurant::find($id);
-        $restaurant->update([
-            'is_active' => 1,
-        ]);
-
-        return redirect()->back();
+        return $this->restaurantService->active($id);
     }
     public function deActive($id)
     {
-        $restaurant = Restaurant::find($id);
-        $restaurant->update([
-            'is_active' => 0,
-        ]);
-
-        return redirect()->back();
+        return $this->restaurantService->deActive($id);
     }
 }

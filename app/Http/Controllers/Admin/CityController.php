@@ -7,7 +7,6 @@ use App\Http\Requests\City\CityStoreRequest;
 use App\Http\Requests\City\CityUpdateRequest;
 use App\Interfaces\CityRepositoryInterface;
 use App\Models\City;
-use Illuminate\Http\Request;
 
 class CityController extends Controller
 {

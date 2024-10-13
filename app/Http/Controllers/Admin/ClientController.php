@@ -4,42 +4,36 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Services\Admin\ClientService;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
 
+
+    public $clientService;
+
+    public function __construct(ClientService $clientService)
+    {
+        $this->clientService = $clientService;
+    }
     public function index(Request $request)
     {
-        $records = Client::with('region')->where('name','like',"%$request->search%")->orWhere('email','like',"%$request->search%")
-                    ->orWhere('phone','like',"%$request->search%")->get();
-        return view('admin.clients.index',compact('records'));
+        return $this->clientService->index($request);
     }
     public function destroy($id)
     {
-        $record = Client::find($id);
-        $record->orders()->delete();
-        $record->reviews()->delete();
-        $record->delete();
-        return redirect()->back();
+        return $this->clientService->destroy($id);
+
     }
 
     public function active($id)
     {
-        $restaurant = Client::find($id);
-        $restaurant->update([
-            'is_active' => 1,
-        ]);
+        return $this->clientService->active($id);
 
-        return redirect()->back();
     }
     public function deActive($id)
     {
-        $restaurant = Client::find($id);
-        $restaurant->update([
-            'is_active' => 0,
-        ]);
-
-        return redirect()->back();
+        return $this->clientService->deActive($id);
     }
 }

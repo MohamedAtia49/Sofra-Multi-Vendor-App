@@ -28,6 +28,7 @@
                 <th>Delete</th>
             </tr>
         </thead>
+        @if (count($records) > 0)
         <tbody>
             @foreach ($records as $record)
             <tr>
@@ -47,5 +48,9 @@
             </tr>
             @endforeach
         </tbody>
+        @else
+            No data found
+        @endif
     </table>
+    {{ $records->links() }}
 @endsection
