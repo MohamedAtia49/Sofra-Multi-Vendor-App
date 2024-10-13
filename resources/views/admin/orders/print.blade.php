@@ -5,43 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('build/assets/app-1bd03d06.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/pdf-print/print.css') }}">
     <title>Document</title>
 </head>
 <body>
-    <style>
-            /* Base table styles */
-            .custom-table {
-                width: 100%;
-                max-width: 100%;
-                margin-bottom: 1rem;
-                border-collapse: collapse;
-            }
-
-            /* Zebra-striping */
-            .custom-table tr:nth-child(even) {
-                background-color: #f2f2f2;
-            }
-
-            /* Hover effect */
-            .custom-table tr:hover {
-                background-color: #e9e9e9;
-            }
-
-            /* Border */
-            .custom-table {
-                border: 1px solid #ddd;
-            }
-
-            .custom-table th,
-            .custom-table td {
-                border: 1px solid #ddd;
-                padding: 8px;
-            }
-
-            .custom-table th {
-                background-color: #f2f2f2;
-            }
-    </style>
     <table class="custom-table">
         <thead>
             <tr>
@@ -81,15 +48,15 @@
                 <td>{{ $record->note }}</td>
                 <td>{{ $record->payment_method }}</td>
                 @if ($record->state == 'pending')
-                    <td class="badge text-sm bg-warning text-dark mt-3 ml-3">{{ $record->state }}</td>
+                    <td class="custom-badge-pending">{{ $record->state }}</td>
                 @elseif ($record->state == 'accepted')
-                    <td class="badge text-sm bg-success text-dark mt-3 ml-3">{{ $record->state }}</td>
+                    <td class="custom-badge-accepted">{{ $record->state }}</td>
                 @elseif ($record->state == 'rejected')
-                    <td class="badge text-sm bg-danger text-dark mt-3 ml-3">{{ $record->state }}</td>
+                    <td class="custom-badge-rejected-declined">{{ $record->state }}</td>
                 @elseif ($record->state == 'declined')
-                    <td class="badge text-sm bg-danger text-dark mt-3 ml-3">{{ $record->state }}</td>
+                    <td class="custom-badge-rejected-declined">{{ $record->state }}</td>
                 @elseif ($record->state == 'delivered')
-                    <td class="badge text-sm bg-primary text-dark mt-3 ml-3">{{ $record->state }}</td>
+                    <td class="custom-badge-delivered">{{ $record->state }}</td>
                 @endif
                 <td>{{ $record->client->name }}</td>
                 <td>{{ $record->restaurant->name }}</td>
