@@ -1,4 +1,4 @@
-admins@extends('layouts.app')
+@extends('layouts.app')
 
 @section('page_title')
     Cities
@@ -30,7 +30,7 @@ admins@extends('layouts.app')
             <label class="text-center">City Name</label>
             <input type="text" value="{{ $record->name }}" name="name" class="form-control form-control-lg mb-3" placeholder="City Name">
             <button type="submit" class="btn btn-primary btn-outline-warning">Update</button>
-          </form>
+        </form>
     </div> <!-- card-body -->
 </div> <!-- card -->
 </div> <!-- col-md-8 -->
